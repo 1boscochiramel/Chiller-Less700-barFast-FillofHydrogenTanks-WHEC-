@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Eliminating the Chiller — Interactive Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">World Hydrogen Energy Conference · interactive simulator</div>
+  <h1>Chiller-less 700-bar Fast-Fill — try it yourself</h1>
+  <div class="modebar">
+    <button id="mStory" class="modebtn active">▶ Story walkthrough</button>
+    <button id="mSandbox" class="modebtn">⚙ Sandbox</button>
+    <button id="mHistory" class="modebtn">📜 Where we came from</button>
+  </div>
+</header>
+
+<main>
+  <!-- ================= STORY ================= -->
+  <section id="story">
+    <div class="storycard">
+      <div class="stepno"><span id="stepIdx">1</span><span class="stepof">/ 7</span></div>
+      <h2 id="storyTitle">The trap</h2>
+      <p id="storyText">…</p>
+      <div class="storynav">
+        <button id="prevBtn">‹ Back</button>
+        <button id="nextBtn">Next ›</button>
+        <button id="toSandbox" class="ghost">Explore in Sandbox →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTROLS ================= -->
+  <section id="controls" class="hidden">
+    <div class="grp">
+      <h3>① Fill conditions</h3>
+      <label>Fill temperature
+        <div class="seg" id="segTemp">
+          <button data-v="-40">T40 chiller (−40 °C)</button>
+          <button data-v="amb" class="active">Ambient (no chiller)</button>
+        </div>
+      </label>
+      <label id="ambWrap">Ambient temperature: <b id="ambVal">30 °C</b>
+        <input type="range" id="amb" min="0" max="3" step="1" value="1">
+        <span class="src calc">CALC scope</span>
+      </label>
+      <label>Refuelling time: <b id="ftVal">10 min</b>
+        <input type="range" id="ft" min="0" max="2" step="1" value="2">
+        <span class="src ext">EXT J2601-5 · 108.3 g/s = 10 min</span>
+      </label>
+    </div>
+
+    <div class="grp">
+      <h3>② Tank liner <span class="hint">(the bottleneck)</span></h3>
+      <label>Material
+        <select id="liner"></select>
+        <span class="src ext">EXT Travaš / Hamidinejad / Feng</span>
+      </label>
+      <div class="kreadout">conductivity k = <b id="linerK">0.4</b> W/m·K</div>
+    </div>
+
+    <div class="grp">
+      <h3>③ PCM thermal sponge <span class="hint">(the heat sink)</span></h3>
+      <label class="toggle"><input type="checkbox" id="pcmOn" checked> PCM layer ON</label>
+      <div id="pcmFields">
+        <label>Material
+          <select id="pcmMat"></select>
+          <span class="src ext">EXT Lin / Dong / Sari</span>
+        </label>
+        <div class="kreadout">k = <b id="pcmK">12</b> W/m·K · melt 45 °C · latent 147 kJ/kg <span class="src calc">CALC design</span></div>
+        <label>PCM mass: <b id="massVal">50 kg</b>
+          <input type="range" id="mass" min="0" max="4" step="1" value="2">
+          <span class="src calc">CALC · ★ ~50 kg sweet spot</span>
+        </label>
+      </div>
+    </div>
+    <p class="assume">Fixed at the validated design point: melt 45 °C, h<sub>conv</sub>=500, +10 °C jet-dome offset, 700 bar. <a href="#refs">scope &amp; sources ↓</a></p>
+  </section>
+
+  <!-- ================= OUTPUTS ================= -->
+  <section id="outputs">
+    <div class="verdict" id="verdict">
+      <div class="vlabel">Peak jet-dome temperature</div>
+      <div class="vbig"><span id="domeT">—</span> °C</div>
+      <div class="vsub" id="vmsg">—</div>
+      <div class="vmargin" id="vmargin"></div>
+      <div class="src ext">ceiling 85 °C — EXT UN GTR 13 · dome — CALC</div>
+    </div>
+
+    <div class="card">
+      <div class="cardhd">Core gas temperature vs time <span class="src calc">CALC engine</span></div>
+      <svg id="curve" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+
+    <div class="card half">
+      <div class="cardhd">PCM melt fraction Φ <span class="src calc">CALC</span></div>
+      <svg id="phi" viewBox="0 0 320 150" preserveAspectRatio="xMidYMid meet"></svg>
+      <div id="phiWarn" class="warn hidden">Φ → 1.0: PCM fully melted — no latent reserve for a hotter day.</div>
+    </div>
+    <div class="card half">
+      <div class="cardhd">Commercial fill <span class="src ext">EXT J2601-5</span></div>
+      <div id="commercial" class="commercial"></div>
+    </div>
+
+    <div class="card half">
+      <div class="cardhd">PCM mass needed vs conductivity <span class="src calc">CALC</span></div>
+      <svg id="massreq" viewBox="0 0 320 170" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div class="card half">
+      <div class="cardhd">Operating envelope <span class="src calc">CALC</span></div>
+      <svg id="env" viewBox="0 0 320 170" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+
+    <div class="card impact">
+      <div class="cardhd">If this config replaces the station chiller</div>
+      <div id="impact"></div>
+    </div>
+  </section>
+
+  <!-- ================= HISTORY ================= -->
+  <section id="history" class="hidden"></section>
+</main>
+
+<footer id="refs">
+  <h3>Sources — every number is external [EXT] or computed by the real engine [CALC]</h3>
+  <div id="reflist"></div>
+  <p class="fine">Engine: <code>fastfill_350.py</code> (coupled 1-D gas–wall, real-gas H₂ via CoolProp/Leachman; 6/6 verification checks). Results pre-computed; the page itself runs entirely in your browser. B. Chiramel · HPCL.</p>
+</footer>
+
+<div id="loading">Loading the engine results…</div>
+<script src="app.js"></script>
+</body>
+</html>
