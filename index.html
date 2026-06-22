@@ -11,9 +11,10 @@
   <div class="eyebrow">World Hydrogen Energy Conference · interactive simulator</div>
   <h1>Chiller-less 700-bar Fast-Fill — try it yourself</h1>
   <div class="modebar">
-    <button id="mStory" class="modebtn active">▶ Story walkthrough</button>
-    <button id="mSandbox" class="modebtn">⚙ Sandbox</button>
     <button id="mHistory" class="modebtn">📜 Where we came from</button>
+    <button id="mStory" class="modebtn active">📖 Learn the physics</button>
+    <button id="mSandbox" class="modebtn">⚙ Sandbox</button>
+    <button id="mQA" class="modebtn">🛡️ Tough Q&A</button>
   </div>
 </header>
 
@@ -21,13 +22,15 @@
   <!-- ================= STORY ================= -->
   <section id="story">
     <div class="storycard">
-      <div class="stepno"><span id="stepIdx">1</span><span class="stepof">/ 7</span></div>
-      <h2 id="storyTitle">The trap</h2>
-      <p id="storyText">…</p>
+      <div class="lessonhead"><span id="chapBadge" class="chapbadge"></span><span id="lessonCount"></span></div>
+      <div class="progbar"><div id="progFill" class="progfill"></div></div>
+      <h2 id="storyTitle"></h2>
+      <div id="storyBody"></div>
+      <div id="lessonCheck"></div>
       <div class="storynav">
         <button id="prevBtn">‹ Back</button>
         <button id="nextBtn">Next ›</button>
-        <button id="toSandbox" class="ghost">Explore in Sandbox →</button>
+        <button id="toSandbox" class="ghost">Open Sandbox →</button>
       </div>
     </div>
   </section>
@@ -76,6 +79,7 @@
         </label>
       </div>
     </div>
+    <button id="resetDesign" class="resetbtn">↺ Reset to design point</button>
     <p class="assume">Fixed at the validated design point: melt 45 °C, h<sub>conv</sub>=500, +10 °C jet-dome offset, 700 bar. <a href="#refs">scope &amp; sources ↓</a></p>
   </section>
 
@@ -107,6 +111,7 @@
     <div class="card half">
       <div class="cardhd">PCM mass needed vs conductivity <span class="src calc">CALC</span></div>
       <svg id="massreq" viewBox="0 0 320 170" preserveAspectRatio="xMidYMid meet"></svg>
+      <div id="massreqLegend" class="chartlegend"></div>
     </div>
     <div class="card half">
       <div class="cardhd">Operating envelope <span class="src calc">CALC</span></div>
@@ -121,6 +126,9 @@
 
   <!-- ================= HISTORY ================= -->
   <section id="history" class="hidden"></section>
+
+  <!-- ================= TOUGH Q&A ================= -->
+  <section id="qa" class="hidden"></section>
 </main>
 
 <footer id="refs">
@@ -130,6 +138,7 @@
 </footer>
 
 <div id="loading">Loading the engine results…</div>
+<script src="course.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

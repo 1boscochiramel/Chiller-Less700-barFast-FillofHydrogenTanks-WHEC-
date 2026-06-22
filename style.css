@@ -38,7 +38,11 @@ select{width:100%;padding:7px;border:1px solid var(--line);border-radius:8px;fon
 .src{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:1px 5px;margin-top:3px}
 .src.ext{background:#e7f0ff;color:#2554a6}
 .src.calc{background:#e9f6ea;color:#1d6b22}
-.assume{font-size:11.5px;color:var(--grey);background:#fff;border:1px dashed var(--line);border-radius:10px;padding:8px 10px}
+.resetbtn{width:100%;padding:9px;border:1px solid var(--cond);background:#fff;color:var(--cond);border-radius:8px;font-weight:700;font-size:13px;cursor:pointer}
+.resetbtn:hover{background:var(--cond);color:#fff}
+.chartlegend{font-size:11px;color:#555;text-align:center;margin-top:2px}
+.assume{font-size:11.5px;color:var(--grey);background:#fff;border:1px dashed var(--line);border-radius:10px;padding:8px 10px;margin-top:8px}
+input[type=range]:disabled{opacity:.4} select:disabled{opacity:.5;background:#f3f3f3}
 .assume a{color:var(--cond)}
 
 /* verdict */
@@ -64,14 +68,44 @@ select{width:100%;padding:7px;border:1px solid var(--line);border-radius:8px;fon
 .impact .row:last-child{border:0}
 .badge{display:inline-block;background:#e9f6ea;color:var(--feas);font-weight:800;font-size:12px;border-radius:6px;padding:3px 8px;margin-top:6px}
 
-/* story */
+.modebar{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
+.modebtn{white-space:nowrap;flex:0 0 auto}
+/* story / course */
 .storycard{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--cond);border-radius:12px;padding:14px 16px}
-.stepno{font-size:13px;color:var(--grey);font-weight:700}
-.stepno #stepIdx{font-size:22px;color:var(--cond)}
-.stepof{margin-left:3px}
-.storycard h2{margin:2px 0 6px;color:var(--navy);font-size:21px}
-#storyText{font-size:15px;margin:0 0 12px}
-.storynav{display:flex;gap:8px;flex-wrap:wrap}
+.lessonhead{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--grey);font-weight:700}
+.chapbadge{background:var(--cond);color:#fff;border-radius:6px;padding:2px 9px;font-size:11px;letter-spacing:.3px}
+.progbar{height:4px;background:#e6ebf2;border-radius:2px;margin:9px 0 6px}
+.progfill{height:100%;background:var(--cond);border-radius:2px;transition:width .25s}
+.storycard h2{margin:2px 0 8px;color:var(--navy);font-size:21px}
+#storyBody{font-size:15px}
+#storyBody p{margin:0 0 10px}
+#storyBody b{color:var(--navy)}
+/* equations */
+.eqn{font-family:Georgia,'Times New Roman',serif;font-size:18px;text-align:center;
+  background:#f6f9fc;border:1px solid #dfe7f1;border-radius:8px;padding:11px 10px;margin:10px 0;color:#16233b}
+.eqn i{font-style:italic}
+.eqn sub{font-size:.65em}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .25em}
+.frac>span:first-child{border-bottom:1.6px solid currentColor;padding:0 .35em}
+.frac>span:last-child{padding:2px .35em 0}
+.eqnnote{font-size:12px;color:var(--grey);text-align:center;margin:-4px 0 10px;font-style:italic}
+/* course content blocks */
+.example{background:#f4f8f4;border-left:4px solid var(--feas);border-radius:0 8px 8px 0;padding:9px 12px;margin:10px 0;font-size:13.5px;color:#27402a}
+.litnote{background:#eef3fb;border-left:4px solid var(--cond);border-radius:0 8px 8px 0;padding:9px 12px;margin:10px 0;font-size:13px;color:#22364f}
+.defends{background:#fff6e8;border:1px dashed #e3b366;border-radius:8px;padding:9px 12px;margin:11px 0 2px;font-size:13px;color:#5a4416}
+.defends i{color:#7a5a1a}
+#storyBody sup{font-size:.65em}
+/* predict-reveal */
+.check{background:#fff8ec;border:1px solid #f0e0bd;border-radius:10px;padding:12px 13px;margin:12px 0}
+.check .q{font-weight:800;color:var(--navy);margin-bottom:8px;font-size:14.5px}
+.check .opt{display:block;width:100%;text-align:left;padding:10px 12px;margin:6px 0;border:1px solid var(--line);
+  border-radius:8px;background:#fff;cursor:pointer;font-size:14px;color:#1a2233}
+.check .opt:hover{border-color:var(--cond)}
+.check .opt.correct{background:#e9f6ea;border-color:var(--feas);font-weight:700}
+.check .opt.wrong{background:#fdeceb;border-color:var(--warn)}
+.check .reveal{margin-top:9px;font-size:13.5px;color:#33404f;background:#fff;border-radius:8px;padding:9px 11px;border:1px dashed var(--line);display:none}
+.check .reveal.show{display:block}
+.storynav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .storynav button{background:var(--cond);color:#fff;border:0;border-radius:8px;padding:9px 14px;font-weight:700;cursor:pointer}
 .storynav .ghost{background:#fff;color:var(--cond);border:1px solid var(--cond)}
 .storynav button:disabled{opacity:.4;cursor:default}
@@ -91,6 +125,27 @@ select{width:100%;padding:7px;border:1px solid var(--line);border-radius:8px;fon
 .stage p{margin:0;font-size:12.5px;color:#33404f}
 .htake{margin-top:12px;background:var(--navy);color:#eaf2fb;border-radius:8px;padding:9px 12px;font-size:12.5px;font-weight:600}
 .htake b{color:#bfe3ff}
+/* tough Q&A */
+#qa{grid-column:1 / -1;gap:14px}
+.qaintro{background:var(--navy);color:#eaf2fb;border-radius:12px;padding:13px 16px;font-size:13.5px}
+.qaintro b{color:#bfe3ff}
+.qalegend{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.qacat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 15px}
+.qacat>h3{margin:0 0 3px;color:var(--navy);font-size:16px}
+.qacat>.cdesc{font-size:12px;color:var(--grey);font-style:italic;margin:0 0 6px}
+.qaitem{border-top:1px solid #eef1f5}
+.qaq{cursor:pointer;padding:11px 0;font-weight:700;font-size:14px;color:#1a2233;display:flex;gap:9px;align-items:flex-start}
+.qaq .tw{color:var(--cond);flex:0 0 auto;transition:transform .15s}
+.qaitem.open .qaq .tw{transform:rotate(90deg)}
+.qaa{display:none;padding:0 0 13px 24px;font-size:13.5px;color:#33404f;line-height:1.5}
+.qaitem.open .qaa{display:block}
+.qaa b{color:var(--navy)}
+.qatag{display:inline-block;font-size:10px;font-weight:800;border-radius:4px;padding:1px 6px;margin:0 4px 8px 0}
+.qatag.calc{background:#e9f6ea;color:#1d6b22}
+.qatag.ext{background:#e7f0ff;color:#2554a6}
+.qatag.scope{background:#f0eef5;color:#5a4a7a}
+.qatag.design{background:#fff1e0;color:#9a5a13}
+.qatry{font-size:12.5px;color:var(--cond);font-weight:700;margin-top:7px;background:#f2f6fb;border-radius:7px;padding:6px 9px}
 footer{max-width:1100px;margin:10px auto 40px;padding:14px;font-size:12.5px;color:#333}
 footer h3{color:var(--navy);font-size:14px}
 #reflist a{color:var(--cond);text-decoration:none}
