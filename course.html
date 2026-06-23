@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Eliminating the Chiller — Crash Course</title>
+<meta name="description" content="A fundamentals-to-expert crash course on chiller-less 700-bar hydrogen fast-fill: thermodynamics, heat transfer, PCM physics, and how to defend the design.">
+<meta property="og:title" content="Eliminating the Chiller — Crash Course">
+<meta property="og:description" content="24 lessons, fundamentals → expert: real-gas thermodynamics, conduction & convection, phase-change materials, and the full defense of chiller-less H₂ fast-fill.">
+<meta property="og:type" content="website">
+<style>
+:root{--navy:#14213D;--cond:#4A6FA5;--warn:#C84C3A;--feas:#2E7D32;--grey:#667;--line:#d7d7d7;--bg:#f4f6f9;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#1a2233;background:var(--bg);line-height:1.5}
+header{background:var(--navy);color:#fff;padding:14px 18px;position:sticky;top:0;z-index:5}
+.eyebrow{color:#cfeefc;font-weight:700;font-size:11px;letter-spacing:.4px;text-transform:uppercase}
+header h1{margin:3px 0 0;font-size:18px;font-weight:800}
+main{max-width:720px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--cond);border-radius:12px;padding:15px 17px}
+.lessonhead{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--grey);font-weight:700}
+.chapbadge{background:var(--cond);color:#fff;border-radius:6px;padding:2px 9px;font-size:11px}
+.progbar{height:5px;background:#e6ebf2;border-radius:3px;margin:10px 0 6px}
+.progfill{height:100%;background:var(--cond);border-radius:3px;transition:width .25s}
+h2{margin:4px 0 10px;color:var(--navy);font-size:21px}
+#body{font-size:15.5px}
+#body p{margin:0 0 11px}
+#body b{color:var(--navy)}
+#body sup{font-size:.65em}
+.eqn{font-family:Georgia,'Times New Roman',serif;font-size:18px;text-align:center;background:#f6f9fc;border:1px solid #dfe7f1;border-radius:8px;padding:11px 10px;margin:11px 0;color:#16233b}
+.eqn i{font-style:italic}.eqn sub{font-size:.65em}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .25em}
+.frac>span:first-child{border-bottom:1.6px solid currentColor;padding:0 .35em}
+.frac>span:last-child{padding:2px .35em 0}
+.eqnnote{font-size:12px;color:var(--grey);text-align:center;margin:-5px 0 10px;font-style:italic}
+.example{background:#f4f8f4;border-left:4px solid var(--feas);border-radius:0 8px 8px 0;padding:10px 12px;margin:11px 0;font-size:13.5px;color:#27402a}
+.litnote{background:#eef3fb;border-left:4px solid var(--cond);border-radius:0 8px 8px 0;padding:10px 12px;margin:11px 0;font-size:13px;color:#22364f}
+.defends{background:#fff6e8;border:1px dashed #e3b366;border-radius:8px;padding:10px 12px;margin:12px 0 2px;font-size:13px;color:#5a4416}
+.defends i{color:#7a5a1a}
+.check{background:#fff8ec;border:1px solid #f0e0bd;border-radius:10px;padding:13px;margin:13px 0}
+.check .q{font-weight:800;color:var(--navy);margin-bottom:8px;font-size:14.5px}
+.check .opt{display:block;width:100%;text-align:left;padding:11px 13px;margin:7px 0;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-size:14px;color:#1a2233}
+.check .opt:hover{border-color:var(--cond)}
+.check .opt.correct{background:#e9f6ea;border-color:var(--feas);font-weight:700}
+.check .opt.wrong{background:#fdeceb;border-color:var(--warn)}
+.check .reveal{margin-top:10px;font-size:13.5px;color:#33404f;background:#fff;border-radius:8px;padding:10px 12px;border:1px dashed var(--line);display:none}
+.check .reveal.show{display:block}
+nav{display:flex;gap:9px;margin-top:14px}
+nav button{flex:1;background:var(--cond);color:#fff;border:0;border-radius:9px;padding:12px;font-weight:800;cursor:pointer;font-size:15px}
+nav button:disabled{opacity:.4}
+.done{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:12px;display:none}
+.done.show{display:block}
+.simlink{display:block;text-align:center;margin:14px 0 30px;color:var(--cond);font-weight:700;text-decoration:none;font-size:14px}
+footer{max-width:720px;margin:0 auto 30px;padding:0 14px;font-size:11.5px;color:var(--grey)}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">World Hydrogen Energy Conference · crash course</div>
+  <h1>Eliminating the Chiller — fundamentals to expert</h1>
+</header>
+<main>
+  <div class="card">
+    <div class="lessonhead"><span id="chap" class="chapbadge"></span><span id="count"></span></div>
+    <div class="progbar"><div id="prog" class="progfill"></div></div>
+    <h2 id="title"></h2>
+    <div id="body"></div>
+    <div id="check"></div>
+    <nav>
+      <button id="prev">‹ Back</button>
+      <button id="next">Next ›</button>
+    </nav>
+  </div>
+  <a class="simlink" href="./" target="_blank">▶ Open the interactive version — live charts &amp; sandbox</a>
+</main>
+<footer>Every value is from public sources or the real fast-fill engine (<code>fastfill_350.py</code>). B. Chiramel · HPCL.</footer>
+
+<script src="course.js"></script>
+<script>
+var i=0;
+function checkHTML(c){
+  return '<div class="check"><div class="q">🤔 '+c.q+'</div>'+
+    c.opts.map(function(o){return '<button class="opt" data-ok="'+(o.ok?1:0)+'">'+o.t+'</button>';}).join('')+
+    '<div class="reveal">'+c.reveal+'</div></div>';
+}
+function show(n){
+  i=(n+LESSONS.length)%LESSONS.length;
+  var L=LESSONS[i];
+  document.getElementById('chap').textContent='Chapter '+L.ch;
+  document.getElementById('count').textContent='Lesson '+(i+1)+' / '+LESSONS.length;
+  document.getElementById('prog').style.width=(100*(i+1)/LESSONS.length)+'%';
+  document.getElementById('title').textContent=L.title;
+  document.getElementById('body').innerHTML=L.body;
+  document.getElementById('check').innerHTML=L.check?checkHTML(L.check):'';
+  document.getElementById('prev').disabled=i===0;
+  document.getElementById('next').textContent=i===LESSONS.length-1?'Finish ✓':'Next ›';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('next').addEventListener('click',function(){
+  if(i===LESSONS.length-1){document.querySelector('.done').classList.add('show');window.scrollTo({top:9999,behavior:'smooth'});}
+  else show(i+1);
+});
+document.getElementById('prev').addEventListener('click',function(){show(i-1);});
+document.getElementById('check').addEventListener('click',function(e){
+  var b=e.target.closest('.opt'); if(!b) return;
+  var box=b.closest('.check');
+  box.querySelectorAll('.opt').forEach(function(o){
+    if(o.dataset.ok==='1') o.classList.add('correct');
+    else if(o===b) o.classList.add('wrong');
+    o.disabled=true; o.style.cursor='default';
+  });
+  box.querySelector('.reveal').classList.add('show');
+});
+show(0);
+</script>
+<div class="done" style="max-width:720px;margin:0 auto;">
+  <div style="font-size:22px;font-weight:800;color:#14213D">🎉 Course complete</div>
+  <p style="font-size:14px;color:#445">You can now defend the chiller-less design across thermodynamics, heat transfer, PCM physics, integrity, validation, logistics and economics.</p>
+  <a class="simlink" href="./" target="_blank" style="margin:0">▶ Open the interactive simulator</a>
+</div>
+</body>
+</html>
